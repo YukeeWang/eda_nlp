@@ -1,45 +1,40 @@
 # EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks
 [![Conference](http://img.shields.io/badge/EMNLP-2019-4b44ce.svg)](https://arxiv.org/abs/1901.11196)
 
-This is the code for the EMNLP-IJCNLP paper [EDA: Easy Data Augmentation techniques for boosting performance on text classification tasks.](https://arxiv.org/abs/1901.11196) 
+这是EMNLP-IJCNLP论文的代码 [EDA: Easy Data Augmentation techniques for boosting performance on text classification tasks.](https://arxiv.org/abs/1901.11196) 
 
-A blog post that explains EDA is [[here]](https://medium.com/@jason.20/these-are-the-easiest-data-augmentation-techniques-in-natural-language-processing-you-can-think-of-88e393fd610). 
+介绍 EDA博客 [[here]](https://medium.com/@jason.20/these-are-the-easiest-data-augmentation-techniques-in-natural-language-processing-you-can-think-of-88e393fd610). 
 
 By [Jason Wei](https://jasonwei20.github.io/research/) and Kai Zou.
 
-Note: **Do not** email me with questions, as I will not reply. Instead, open an issue.
+我们介绍了EDA：轻松的数据增强技术，可提高文本分类任务的性能。这些是一组通用的数据增强技术，易于实施，并且在五个NLP分类任务上已显示出改进，对大小N <500的数据集也进行了很大提升。而其他技术则要求您仅在外部数据集上训练语言模型为了获得小幅提升，我们发现使用EDA进行简单的文本编辑操作可带来良好的性能提升。给定训练集中的句子，我们执行以下操作：
 
-We present **EDA**: **e**asy **d**ata **a**ugmentation techniques for boosting performance on text classification tasks. These are a generalized set of data augmentation techniques that are easy to implement and have shown improvements on five NLP classification tasks, with substantial improvements on datasets of size `N < 500`. While other techniques require you to train a language model on an external dataset just to get a small boost, we found that simple text editing operations using EDA result in good performance gains. Given a sentence in the training set, we perform the following operations:
-
-- **Synonym Replacement (SR):** Randomly choose *n* words from the sentence that are not stop words. Replace each of these words with one of its synonyms chosen at random.
-- **Random Insertion (RI):** Find a random synonym of a random word in the sentence that is not a stop word. Insert that synonym into a random position in the sentence. Do this *n* times.
-- **Random Swap (RS):** Randomly choose two words in the sentence and swap their positions. Do this *n* times.
-- **Random Deletion (RD):** For each word in the sentence, randomly remove it with probability *p*.
+- 同义词替换（SR）：从句子中随机选择n个非停用词。用随机选择的一个同义词替换这些单词中的每个单词。
+- 随机插入（RI）：在句子中找到不是停用词的随机词的随机同义词。将该同义词插入句子中的随机位置。这样做n次。
+- 随机交换（RS）：在句子中随机选择两个单词并交换其位置。这样做n次。
+- 随机删除（RD）：对于句子中的每个单词，以概率p随机删除它。
 
 <p align="center"> <img src="eda_figure.png" alt="drawing" width="400" class="center"> </p>
-Average performance on 5 datasets with and without EDA, with respect to percent of training data used.
+关于使用和未使用EDA的5个数据集的平均性能对比（相对于所用训练数据的百分比）。
+# 使用方法
 
-# Usage
+您可以在不到5分钟的时间内运行EDA任何文本分类数据集。仅需两个步骤：
 
-You can run EDA any text classification dataset in less than 5 minutes. Just two steps:
-
-### Install NLTK (if you don't have it already):
-
-Pip install it.
+### 安装NLTK:
 
 ```bash
 pip install -U nltk
 ```
 
-Download WordNet.
+下载 WordNet.
 ```bash
 python
 >>> import nltk; nltk.download('wordnet')
 ```
 
-### Run EDA
+### 运行 EDA
 
-You can easily write your own implementation, but this one takes input files in the format `label\tsentence` (note the `\t`). So for instance, your input file should look like this (example from stanford sentiment treebank):
+您可以轻松地编写自己的实现，但是该实现采用label\tsentence（请注意\ t）格式的输入文件。因此，例如，您的输入文件应如下所示:
 
 ```
 1   neil burger here succeeded in making the mystery of four decades back the springboard for a more immediate mystery in the present 
@@ -48,22 +43,23 @@ You can easily write your own implementation, but this one takes input files in 
 ...
 ```
 
-Now place this input file into the `data` folder. Run 
+现在，将此输入文件放入data文件夹. 运行如下命令 
 
 ```bash
 python code/augment.py --input=<insert input filename>
 ```
 
-The default output filename will append `eda_` to the front of the input filename, but you can specify your own with `--output`. You can also specify the number of generated augmented sentences per original sentence using `--num_aug` (default is 9). Furthermore, you can specify the alpha parameter, which approximately means the percent of words in the sentence that will be changed (default is `0.1` or `10%`). So for example, if your input file is `sst2_train.txt` and you want to output to `sst2_augmented.txt` with `16` augmented sentences per original sentence and `alpha=0.05`, you would do:
+默认的输出文件名将eda_附加到输入文件名的前面，但是您可以使用--output指定自己的文件名。您还可以使用--num_aug（默认值为9）指定每个原始句子生成的扩充句子的数量。此外，您可以指定alpha参数，该参数大约表示将要更改的句子中单词的百分比（默认值为0.1或10％）。因此，例如，如果您的输入文件是sst2_train.txt，而您想输出到sst2_augmented.txt，并且每个原始句子生成16个增强句子，且alpha = 0.05，则可以执行以下操作：
 
 ```bash
 python code/augment.py --input=sst2_train.txt --output=sst2_augmented.txt --num_aug=16 --alpha=0.05
 ```
 
-Note that at least one augmentation operation is applied per augmented sentence regardless of alpha. So if you do `alpha=0.001` and your sentence only has four words, one augmentation operation will still be performed. Best of luck!
+
+注意，不论alpha设置为多少，每个增强的语句至少应用一个增强操作。因此，如果您执行alpha = 0.001并且句子只有四个单词，那么将仍然执行一个增强操作。即EDA的4个操作中的一个。
 
 # Citation
-If you use EDA in your paper, please cite us:
+如果您在论文中使用EDA，请引用我们：
 ```
 @inproceedings{wei-zou-2019-eda,
     title = "{EDA}: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks",
