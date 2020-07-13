@@ -3,11 +3,21 @@
 
 
 # 改成中文的EDA
-近义词获取的工具, 使用工具synonyms获取近义词或分次
+近义词获取的工具, 使用工具synonyms获取近义词或分词，对zhongwen.txt中所有中文进行数据增强
 pip install -U synonyms
 # 测试方法
 python code/augment_cn.py --input=zhongwen.txt --output=zhongwen_out.txt --num_aug=6
-
+# 输出结果
+```buildoutcfg
+0_zhongwen_out.txt
+1_zhongwen_out.txt
+2_zhongwen_out.txt
+3_zhongwen_out.txt
+4_zhongwen_out.txt
+5_zhongwen_out.txt
+6_zhongwen_out.txt
+zhongwen.txt
+```
 
 这是EMNLP-IJCNLP论文的代码 [EDA: Easy Data Augmentation techniques for boosting performance on text classification tasks.](https://arxiv.org/abs/1901.11196) 
 
