@@ -1,6 +1,14 @@
 # EDA: Easy Data Augmentation Techniques for Boosting Performance on Text Classification Tasks
 [![Conference](http://img.shields.io/badge/EMNLP-2019-4b44ce.svg)](https://arxiv.org/abs/1901.11196)
 
+
+# 改成中文的EDA
+近义词获取的工具, 使用工具synonyms获取近义词或分次
+pip install -U synonyms
+# 测试方法
+python code/augment_cn.py --input=zhongwen.txt --output=zhongwen_out.txt --num_aug=6
+
+
 这是EMNLP-IJCNLP论文的代码 [EDA: Easy Data Augmentation techniques for boosting performance on text classification tasks.](https://arxiv.org/abs/1901.11196) 
 
 介绍 EDA博客 [[here]](https://medium.com/@jason.20/these-are-the-easiest-data-augmentation-techniques-in-natural-language-processing-you-can-think-of-88e393fd610). 
