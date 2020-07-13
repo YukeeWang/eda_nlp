@@ -7,6 +7,14 @@
 pip install -U synonyms
 # 测试方法
 python code/augment_cn.py --input=zhongwen.txt --output=zhongwen_out.txt --num_aug=6
+# 相关参数
+```
+ap.add_argument("--input", required=True, type=str, help="要增强的文本文件")
+ap.add_argument("--output", required=False, type=str, help="要输出的增强文本文件的名称，非必须")
+ap.add_argument("--num_aug", required=False, default=9, type=int, help="对于文本文件，每个句子生成的增强句子的个数")
+ap.add_argument("--alpha", required=False, type=float, help="每个句子单词变更的百分比")
+ap.add_argument("--sim_alpha", required=False, default=0.8, type=float, help="用于近义词寻找时，2个词的余弦相似度，相似度在这个阈值内才进行替换,或插入")
+```
 # 输出结果
 ```buildoutcfg
 0_zhongwen_out.txt
